@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "RESTful API for the Denner Portal",
-    "version" : "0.2.0",
+    "version" : "0.12.0",
     "title" : "Denner Portal 2.0",
     "contact" : {
       "name" : "DETAIL NET",
@@ -24,16 +24,19 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The page number",
+          "description" : "The page number. Default: 1\n",
           "required" : false,
           "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
           "format" : "int32"
         }, {
           "name" : "page_size",
           "in" : "query",
-          "description" : "The page size",
+          "description" : "The page size. Default: -1 (no limit)\n",
           "required" : false,
           "type" : "integer",
+          "default" : "-1",
           "format" : "int32"
         } ],
         "responses" : {
@@ -48,30 +51,301 @@
                 "page_size" : 2,
                 "total_items" : 2,
                 "article_groups" : [ {
-                  "id" : "42680ccc-a000-4848-9495-af6b02ea231c",
+                  "id" : "7e00e926-53d0-41a8-985a-e1a514b0a642",
                   "code" : "01",
                   "name" : "Molkereiprodukte & Eier",
                   "children" : [ {
-                    "id" : "bd377284-0758-46a6-b1af-b3219f7d9fcf",
+                    "id" : "2ee0bc65-7d8a-4633-bc33-51929d21dc62",
                     "code" : "01-10",
                     "name" : "Butter",
                     "children" : [ ]
                   }, {
-                    "id" : "71ee4a8b-92b5-4f5a-820d-353a9fce9b04",
+                    "id" : "01b53b41-e35a-4abe-91a5-63e74468375d",
                     "code" : "01-15",
                     "name" : "Milch",
                     "children" : [ ]
                   } ]
                 }, {
-                  "id" : "380d422a-5b8f-42c5-872c-c4ddf4bb5611",
+                  "id" : "3f3df00f-6a7e-49a9-8eca-a36727ca4977",
                   "code" : "60",
                   "name" : "Weine",
                   "children" : [ {
-                    "id" : "b3c6797a-777a-4103-aba8-d82089ba2980",
+                    "id" : "0c309757-5432-4652-8201-ec35f31c5260",
                     "code" : "60-56",
                     "name" : "Italien Rot 70 cl",
                     "children" : [ ]
                   } ]
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "appKey" : [ ]
+        }, {
+          "appId" : [ ]
+        } ]
+      }
+    },
+    "/articles" : {
+      "get" : {
+        "tags" : [ "Articles and Promotions – Artikel und Aktionen" ],
+        "summary" : "List all articles",
+        "description" : "Use this operation to get a list of all articles.\n\nTo get only shop wines set 'filter' param to '[{\"property\":\"in_shop\",\"operator\":\"eq\",\"type\":\"boolean\",\"value\":true}]'\n",
+        "operationId" : "listArticles",
+        "parameters" : [ {
+          "name" : "filter",
+          "in" : "query",
+          "description" : "Filters: JSON array of Filter object, urlencoded.\n\nFilter object:\n- property: Property to filter on.\n- operator: Operation property. Enumeration ('eq', 'like', 'lt', 'gt', 'in', ...). Dependent from property (not all might be allowed).\n- type: Type of value. Enumeration ('string', 'integer', 'boolean', 'array') Dependent from property and operator (not all might be allowed).\n- value: Value. Must be of the defined type.\n\nExamples:\n- [{\"property\":\"id\",\"operator\":\"in\",\"type\":\"array\",\"value\":[\"7627150d-36bd-4867-89b2-091800a03d24\",\"58afec5c-ece9-4b66-bc55-00d6dc1b65b8\"]}]\n- [{\"property\":\"in_shop\",\"operator\":\"eq\",\"type\":\"boolean\",\"value\":true}]\n",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "The page number. Default: 1\n",
+          "required" : false,
+          "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
+          "format" : "int32"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The page size. Default: -1 (no limit)\n",
+          "required" : false,
+          "type" : "integer",
+          "default" : "-1",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful listing",
+            "schema" : {
+              "$ref" : "#/definitions/ArticlesResponse"
+            },
+            "examples" : {
+              "application/json" : {
+                "page_count" : 1,
+                "page_size" : 1,
+                "total_items" : 1,
+                "articles" : [ {
+                  "id" : "051273",
+                  "name" : "Mandorla Primitivo IGT Puglia",
+                  "title" : [ {
+                    "locale" : "de",
+                    "value" : "Mandorla Primitivo di Puglia IGT"
+                  }, {
+                    "locale" : "fr",
+                    "value" : "Mandorla Primitivo di Puglia IGT"
+                  }, {
+                    "locale" : "it",
+                    "value" : "Mandorla Primitivo di Puglia IGT"
+                  } ],
+                  "description" : [ {
+                    "locale" : "de",
+                    "value" : "2013, Apulien, Italien, 6 x 75 cl"
+                  }, {
+                    "locale" : "fr",
+                    "value" : "2013, les Pouilles, Italie, 6 x 75 cl"
+                  }, {
+                    "locale" : "it",
+                    "value" : "2013, Puglia, Italia, 6 x 75 cl"
+                  } ],
+                  "prices" : {
+                    "sales" : 9.9,
+                    "instead" : 11.4,
+                    "base" : 1.32,
+                    "by_quantity" : [ {
+                      "quantity" : 1,
+                      "sales" : 9.9,
+                      "instead" : 11.4
+                    }, {
+                      "quantity" : 6,
+                      "sales" : 59.4,
+                      "instead" : 68.4
+                    } ]
+                  },
+                  "base" : {
+                    "text" : [ {
+                      "locale" : "de",
+                      "value" : "10 cl"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "10 cl"
+                    }, {
+                      "locale" : "it",
+                      "value" : "10 cl"
+                    } ]
+                  },
+                  "cooling" : 0,
+                  "online_group" : {
+                    "id" : "671988cc-ca5f-484e-8db8-23a65ea0044a",
+                    "code" : 4003,
+                    "disabled" : false,
+                    "allow_featuring" : true,
+                    "allow_promotion" : true,
+                    "allow_background" : true,
+                    "title" : [ {
+                      "locale" : "de",
+                      "value" : "Wein"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "Vins"
+                    }, {
+                      "locale" : "it",
+                      "value" : "Vini"
+                    } ],
+                    "parent" : {
+                      "id" : "5b79391b-b436-45f9-b3e4-93ec3ae1fae2",
+                      "code" : 4001,
+                      "disabled" : false,
+                      "allow_featuring" : true,
+                      "allow_promotion" : true,
+                      "allow_background" : true,
+                      "title" : [ {
+                        "locale" : "de",
+                        "value" : "TafelgetrÃ¤nke und Mineralwasser"
+                      }, {
+                        "locale" : "fr",
+                        "value" : "Boissons table et eau minÃ©rale"
+                      }, {
+                        "locale" : "it",
+                        "value" : "Bevande da tavola e acque minerali"
+                      } ]
+                    }
+                  },
+                  "article_group" : {
+                    "id" : "0c309757-5432-4652-8201-ec35f31c5260",
+                    "code" : "60-56",
+                    "name" : "Italien Rot 70 cl",
+                    "parent" : {
+                      "id" : "3f3df00f-6a7e-49a9-8eca-a36727ca4977",
+                      "code" : "60",
+                      "name" : "Weine"
+                    }
+                  },
+                  "wine" : {
+                    "country" : {
+                      "id" : "IT",
+                      "title" : [ {
+                        "locale" : "de",
+                        "value" : "Italien"
+                      }, {
+                        "locale" : "fr",
+                        "value" : "Italie"
+                      }, {
+                        "locale" : "it",
+                        "value" : "Italia"
+                      } ]
+                    },
+                    "region" : {
+                      "id" : "b19c42bf-ed78-46ff-ad6f-fc688a059e6a",
+                      "title" : [ {
+                        "locale" : "de",
+                        "value" : "Apulien"
+                      }, {
+                        "locale" : "fr",
+                        "value" : "Les Pouilles"
+                      }, {
+                        "locale" : "it",
+                        "value" : "Puglia"
+                      } ]
+                    },
+                    "type" : {
+                      "id" : 2,
+                      "title" : [ {
+                        "locale" : "de",
+                        "value" : "Rotwein"
+                      }, {
+                        "locale" : "fr",
+                        "value" : "Vin rouge"
+                      }, {
+                        "locale" : "it",
+                        "value" : "Vino rosso"
+                      } ]
+                    },
+                    "year" : 2013,
+                    "fits_with" : [ {
+                      "locale" : "de",
+                      "value" : "Pasta, Fleisch mit wÃ¼rzigen Saucen"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "PÃ¢tes, viande aux sauces relevÃ©es"
+                    }, {
+                      "locale" : "it",
+                      "value" : "Pasta, carni accompagnate da salse aromatiche"
+                    } ],
+                    "varietal" : [ {
+                      "locale" : "de",
+                      "value" : "Primitivo"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "Primitivo"
+                    }, {
+                      "locale" : "it",
+                      "value" : "Primitivo"
+                    } ],
+                    "character" : [ {
+                      "locale" : "de",
+                      "value" : "Dunkles Rubinrot. In der Nase Aromen von roten Beeren, reifen Kirschen und Brombeeren. Geschmeidig im Gaumen."
+                    }, {
+                      "locale" : "fr",
+                      "value" : "Robe rubis foncÃ©. Nez de baies rouges, de cerises matures et de mÃ»res. Bouche moelleuse."
+                    }, {
+                      "locale" : "it",
+                      "value" : "Rosso rubino scuro. Al naso aromi di bacche rosse, ciliege mature e more. Morbido al palato."
+                    } ],
+                    "temperature" : [ {
+                      "locale" : "de",
+                      "value" : "16-18 Â°C"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "16-18 Â°C"
+                    }, {
+                      "locale" : "it",
+                      "value" : "16-18 Â°C"
+                    } ],
+                    "awards" : [ {
+                      "locale" : "de",
+                      "value" : ""
+                    }, {
+                      "locale" : "fr",
+                      "value" : ""
+                    }, {
+                      "locale" : "it",
+                      "value" : ""
+                    } ],
+                    "storage" : [ {
+                      "locale" : "de",
+                      "value" : "3 Jahre"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "3 ans"
+                    }, {
+                      "locale" : "it",
+                      "value" : "3 anni"
+                    } ],
+                    "rating" : {
+                      "value" : 4.45,
+                      "total" : 11,
+                      "valid" : true
+                    },
+                    "stock" : {
+                      "value" : -15,
+                      "code" : 2,
+                      "message" : [ {
+                        "locale" : "de",
+                        "value" : "Derzeit nicht bestellbar"
+                      }, {
+                        "locale" : "fr",
+                        "value" : "Actuellement pas disponible"
+                      }, {
+                        "locale" : "it",
+                        "value" : "Attualmente non disponibile"
+                      } ]
+                    },
+                    "shop_url" : "http://denner-wineshop.ch/skuredirect/051273/"
+                  }
                 } ]
               }
             }
@@ -93,16 +367,19 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The page number",
+          "description" : "The page number. Default: 1\n",
           "required" : false,
           "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
           "format" : "int32"
         }, {
           "name" : "page_size",
           "in" : "query",
-          "description" : "The page size",
+          "description" : "The page size. Default: -1 (no limit)\n",
           "required" : false,
           "type" : "integer",
+          "default" : "-1",
           "format" : "int32"
         } ],
         "responses" : {
@@ -165,16 +442,19 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The page number",
+          "description" : "The page number. Default: 1\n",
           "required" : false,
           "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
           "format" : "int32"
         }, {
           "name" : "page_size",
           "in" : "query",
-          "description" : "The page size",
+          "description" : "The page size. Default: -1 (no limit)\n",
           "required" : false,
           "type" : "integer",
+          "default" : "-1",
           "format" : "int32"
         } ],
         "responses" : {
@@ -192,7 +472,9 @@
                   "id" : "7627150d-36bd-4867-89b2-091800a03d24",
                   "code" : 1001,
                   "sort_index" : 0,
-                  "disabled" : false,
+                  "allow_featuring" : true,
+                  "allow_promotion" : true,
+                  "allow_background" : true,
                   "title" : [ {
                     "locale" : "de",
                     "value" : "Frischprodukte"
@@ -207,7 +489,9 @@
                     "id" : "58afec5c-ece9-4b66-bc55-00d6dc1b65b8",
                     "code" : 1001,
                     "sort_index" : 0,
-                    "disabled" : false,
+                    "allow_featuring" : true,
+                    "allow_promotion" : true,
+                    "allow_background" : true,
                     "title" : [ {
                       "locale" : "de",
                       "value" : "Milchprodukte"
@@ -223,7 +507,9 @@
                     "id" : "e5216167-9da5-41d6-b7b3-96362b60de89",
                     "code" : 1002,
                     "sort_index" : 1,
-                    "disabled" : true,
+                    "allow_featuring" : true,
+                    "allow_promotion" : true,
+                    "allow_background" : true,
                     "title" : [ {
                       "locale" : "de",
                       "value" : "Eier"
@@ -257,16 +543,19 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The page number",
+          "description" : "The page number. Default: 1\n",
           "required" : false,
           "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
           "format" : "int32"
         }, {
           "name" : "page_size",
           "in" : "query",
-          "description" : "The page size",
+          "description" : "The page size. Default: -1 (no limit)\n",
           "required" : false,
           "type" : "integer",
+          "default" : "-1",
           "format" : "int32"
         } ],
         "responses" : {
@@ -305,6 +594,16 @@
                     "locale" : "it",
                     "value" : "Altre promozioni della settimana"
                   } ],
+                  "show_details_text" : [ {
+                    "locale" : "de",
+                    "value" : "Alle Wochenaktionen zeigen"
+                  }, {
+                    "locale" : "fr",
+                    "value" : "..."
+                  }, {
+                    "locale" : "it",
+                    "value" : "..."
+                  } ],
                   "validity" : {
                     "from" : "2015-06-23",
                     "to" : "2015-06-29",
@@ -334,282 +633,12 @@
                       "to" : "2015-06-29"
                     } ]
                   } ],
-                  "global_appearance" : {
-                    "from" : "2015-06-19",
-                    "to" : "2015-06-29"
-                  },
-                  "featured_appearance" : {
-                    "from" : "2015-06-23",
-                    "to" : "2015-06-29"
-                  },
                   "promotion_type" : {
-                    "id" : "16fe4454-8a99-49bc-9099-d3b48805c67e",
+                    "id" : "089f8537-981a-42ba-9b0a-b3cba4a1c7d5",
                     "code" : "FLUGBLATT",
-                    "name" : "Wochenaktionen"
+                    "name" : "Dennerwoche"
                   },
-                  "sort_index" : 0,
-                  "articles" : [ {
-                    "id" : "48fcba99-b506-4395-ac1a-373e2af478b1",
-                    "number" : "050273",
-                    "name" : "Mandorla Primitivo IGT Puglia",
-                    "title" : [ {
-                      "locale" : "de",
-                      "value" : "Mandorla Primitivo di Puglia IGT"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "Mandorla Primitivo di Puglia IGT"
-                    }, {
-                      "locale" : "it",
-                      "value" : "Mandorla Primitivo di Puglia IGT"
-                    } ],
-                    "description" : [ {
-                      "locale" : "de",
-                      "value" : "2013, Apulien, Italien, 6 x 75 cl"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "2013, les Pouilles, Italie, 6 x 75 cl"
-                    }, {
-                      "locale" : "it",
-                      "value" : "2013, Puglia, Italia, 6 x 75 cl"
-                    } ],
-                    "prices" : {
-                      "sales" : 59.4,
-                      "instead" : 68.4,
-                      "base" : 1.32,
-                      "by_quantity" : [ {
-                        "quantity" : 1,
-                        "sales" : 9.9,
-                        "instead" : 11.4
-                      }, {
-                        "quantity" : 6,
-                        "sales" : 59.4,
-                        "instead" : 68.4
-                      } ]
-                    },
-                    "price_info" : [ {
-                      "locale" : "de",
-                      "value" : "Konkurrenzvergleich"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "Comparaison concurrentielle"
-                    }, {
-                      "locale" : "it",
-                      "value" : "Confronto con la concorrenza"
-                    } ],
-                    "saving" : [ {
-                      "locale" : "de",
-                      "value" : "9.- sparen"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "9.- éparmié"
-                    }, {
-                      "locale" : "it",
-                      "value" : "9.- risparmiati"
-                    } ],
-                    "quantity" : 6,
-                    "content" : {
-                      "size" : 75,
-                      "unit" : "cl"
-                    },
-                    "base" : {
-                      "size" : 10,
-                      "unit" : "cl",
-                      "text" : [ {
-                        "locale" : "de",
-                        "value" : "10 cl"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "10 cl"
-                      }, {
-                        "locale" : "it",
-                        "value" : "10 cl"
-                      } ]
-                    },
-                    "validity" : {
-                      "from" : "2015-06-23",
-                      "to" : "2015-06-29",
-                      "text" : [ {
-                        "locale" : "de",
-                        "value" : "Angebot gültig von 23.06.2015 bis 29.06.2015"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "..."
-                      }, {
-                        "locale" : "it",
-                        "value" : "..."
-                      } ]
-                    },
-                    "global_appearance" : {
-                      "from" : "2015-06-19",
-                      "to" : "2015-06-29"
-                    },
-                    "featured_appearance" : {
-                      "from" : "2015-06-23",
-                      "to" : "2015-06-29"
-                    },
-                    "promoted" : true,
-                    "compared" : true,
-                    "online_group" : {
-                      "id" : "671988cc-ca5f-484e-8db8-23a65ea0044a",
-                      "code" : 4003,
-                      "title" : [ {
-                        "locale" : "de",
-                        "value" : "Wein"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "Vins"
-                      }, {
-                        "locale" : "it",
-                        "value" : "Vini"
-                      } ],
-                      "parent" : {
-                        "id" : "5b79391b-b436-45f9-b3e4-93ec3ae1fae2",
-                        "code" : 4001,
-                        "title" : [ {
-                          "locale" : "de",
-                          "value" : "Tafelgetränke und Mineralwasser"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Boissons table et eau minérale"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Bevande da tavola e acque minerali"
-                        } ]
-                      }
-                    },
-                    "article_group" : {
-                      "id" : "b3c6797a-777a-4103-aba8-d82089ba2980",
-                      "code" : "60-56",
-                      "name" : "Italien Rot 70 cl",
-                      "parent" : {
-                        "id" : "380d422a-5b8f-42c5-872c-c4ddf4bb5611",
-                        "code" : "60",
-                        "name" : "Weine"
-                      }
-                    },
-                    "wine" : {
-                      "country" : {
-                        "id" : "IT",
-                        "title" : [ {
-                          "locale" : "de",
-                          "value" : "Italien"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Italie"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Italia"
-                        } ]
-                      },
-                      "region" : {
-                        "id" : "b19c42bf-ed78-46ff-ad6f-fc688a059e6a",
-                        "title" : [ {
-                          "locale" : "de",
-                          "value" : "Apulien"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Les Pouilles"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Puglia"
-                        } ]
-                      },
-                      "type" : {
-                        "id" : "5395aec7-e36d-4b7f-99f6-a8a7f60fa412",
-                        "title" : [ {
-                          "locale" : "de",
-                          "value" : "Rotwein"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Vin rouge"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Vino rosso"
-                        } ]
-                      },
-                      "year" : 2013,
-                      "fits_with" : [ {
-                        "locale" : "de",
-                        "value" : "Pasta, Fleisch mit würzigen Saucen"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "Pâtes, viande aux sauces relevées"
-                      }, {
-                        "locale" : "it",
-                        "value" : "Pasta, carni accompagnate da salse aromatiche"
-                      } ],
-                      "varietal" : [ {
-                        "locale" : "de",
-                        "value" : "Primitivo"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "Primitivo"
-                      }, {
-                        "locale" : "it",
-                        "value" : "Primitivo"
-                      } ],
-                      "character" : [ {
-                        "locale" : "de",
-                        "value" : "Dunkles Rubinrot. In der Nase Aromen von roten Beeren, reifen Kirschen und Brombeeren. Geschmeidig im Gaumen."
-                      }, {
-                        "locale" : "fr",
-                        "value" : "Robe rubis foncé. Nez de baies rouges, de cerises matures et de mûres. Bouche moelleuse."
-                      }, {
-                        "locale" : "it",
-                        "value" : "Rosso rubino scuro. Al naso aromi di bacche rosse, ciliege mature e more. Morbido al palato."
-                      } ],
-                      "temperature" : [ {
-                        "locale" : "de",
-                        "value" : "16-18 °C"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "16-18 °C"
-                      }, {
-                        "locale" : "it",
-                        "value" : "16-18 °C"
-                      } ],
-                      "awards" : [ {
-                        "locale" : "de",
-                        "value" : ""
-                      }, {
-                        "locale" : "fr",
-                        "value" : ""
-                      }, {
-                        "locale" : "it",
-                        "value" : ""
-                      } ],
-                      "storage" : [ {
-                        "locale" : "de",
-                        "value" : "3 Jahre"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "3 ans"
-                      }, {
-                        "locale" : "it",
-                        "value" : "3 anni"
-                      } ],
-                      "rating" : {
-                        "value" : 4.45,
-                        "total" : 11,
-                        "valid" : true
-                      },
-                      "stock" : {
-                        "value" : -15,
-                        "code" : 2,
-                        "message" : [ {
-                          "locale" : "de",
-                          "value" : "Derzeit nicht bestellbar"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Actuellement pas disponible"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Attualmente non disponibile"
-                        } ]
-                      },
-                      "shop_url" : null
-                    }
-                  } ]
+                  "sort_index" : 0
                 } ]
               }
             }
@@ -668,6 +697,16 @@
                   "locale" : "it",
                   "value" : "Altre promozioni della settimana"
                 } ],
+                "show_details_text" : [ {
+                  "locale" : "de",
+                  "value" : "Alle Wochenaktionen zeigen"
+                }, {
+                  "locale" : "fr",
+                  "value" : "..."
+                }, {
+                  "locale" : "it",
+                  "value" : "..."
+                } ],
                 "validity" : {
                   "from" : "2015-06-23",
                   "to" : "2015-06-29",
@@ -697,23 +736,15 @@
                     "to" : "2015-06-29"
                   } ]
                 } ],
-                "global_appearance" : {
-                  "from" : "2015-06-19",
-                  "to" : "2015-06-29"
-                },
-                "featured_appearance" : {
-                  "from" : "2015-06-23",
-                  "to" : "2015-06-29"
-                },
                 "promotion_type" : {
-                  "id" : "16fe4454-8a99-49bc-9099-d3b48805c67e",
+                  "id" : "089f8537-981a-42ba-9b0a-b3cba4a1c7d5",
                   "code" : "FLUGBLATT",
-                  "name" : "Wochenaktionen"
+                  "name" : "Dennerwoche"
                 },
                 "sort_index" : 0,
                 "articles" : [ {
-                  "id" : "48fcba99-b506-4395-ac1a-373e2af478b1",
-                  "number" : "050273",
+                  "id" : "dfbc2b0d-0f47-4ac2-86e5-3bd4f9936ef6",
+                  "article_id" : "051273",
                   "name" : "Mandorla Primitivo IGT Puglia",
                   "title" : [ {
                     "locale" : "de",
@@ -759,7 +790,52 @@
                     "locale" : "it",
                     "value" : "Confronto con la concorrenza"
                   } ],
-                  "saving" : [ {
+                  "unit_price_info" : [ {
+                    "locale" : "de",
+                    "value" : "Einzelflasche: 9.90 statt 11.40"
+                  }, {
+                    "locale" : "fr",
+                    "value" : "9.90 la bouteille au lieu de 11.40"
+                  }, {
+                    "locale" : "it",
+                    "value" : "9.90 a bottiglia invece di 11.40"
+                  } ],
+                  "dots" : [ {
+                    "id" : "d4bca729-10ad-482c-bdda-b1a1398173b5",
+                    "type" : {
+                      "id" : "semi_price_winehit"
+                    },
+                    "text" : [ {
+                      "locale" : "de",
+                      "value" : "1/2 Preis\nWeinheit!"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "1/2 prix\nLe top du vin!"
+                    }, {
+                      "locale" : "it",
+                      "value" : "1/2 prezzo\nSuperofferta vino!"
+                    } ],
+                    "images" : [ {
+                      "locale" : "de",
+                      "formats" : [ {
+                        "type" : "image/svg+xml",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-de.svg"
+                      } ]
+                    }, {
+                      "locale" : "fr",
+                      "formats" : [ {
+                        "type" : "image/svg+xml",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-fr.svg"
+                      } ]
+                    }, {
+                      "locale" : "it",
+                      "formats" : [ {
+                        "type" : "image/svg+xml",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-it.svg"
+                      } ]
+                    } ]
+                  } ],
+                  "panel" : [ {
                     "locale" : "de",
                     "value" : "9.- sparen"
                   }, {
@@ -770,13 +846,7 @@
                     "value" : "9.- risparmiati"
                   } ],
                   "quantity" : 6,
-                  "content" : {
-                    "size" : 75,
-                    "unit" : "cl"
-                  },
                   "base" : {
-                    "size" : 10,
-                    "unit" : "cl",
                     "text" : [ {
                       "locale" : "de",
                       "value" : "10 cl"
@@ -791,7 +861,17 @@
                   "validity" : {
                     "from" : "2015-06-23",
                     "to" : "2015-06-29",
-                    "text" : [ {
+                    "short_text" : [ {
+                      "locale" : "de",
+                      "value" : "Gültig von 23.06.–29.06."
+                    }, {
+                      "locale" : "fr",
+                      "value" : "..."
+                    }, {
+                      "locale" : "it",
+                      "value" : "..."
+                    } ],
+                    "long_text" : [ {
                       "locale" : "de",
                       "value" : "Angebot gültig von 23.06.2015 bis 29.06.2015"
                     }, {
@@ -802,19 +882,41 @@
                       "value" : "..."
                     } ]
                   },
-                  "global_appearance" : {
-                    "from" : "2015-06-19",
-                    "to" : "2015-06-29"
+                  "availability_limitations" : {
+                    "region" : [ {
+                      "locale" : "de",
+                      "value" : "Nur in der deutschen und französischen Schweiz erhältlich"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "..."
+                    }, {
+                      "locale" : "it",
+                      "value" : "..."
+                    } ],
+                    "store" : [ {
+                      "locale" : "de",
+                      "value" : "Nur in Filialen mit Frischprodukten erhältlich"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "Disponible(s) uniquement dans les succursales aves des produits frais"
+                    }, {
+                      "locale" : "it",
+                      "value" : "..."
+                    } ]
                   },
-                  "featured_appearance" : {
-                    "from" : "2015-06-23",
-                    "to" : "2015-06-29"
-                  },
+                  "sort_index" : 0,
+                  "featured_sort_index" : 10,
+                  "featured" : true,
                   "promoted" : true,
                   "compared" : true,
+                  "cooling" : 0,
                   "online_group" : {
                     "id" : "671988cc-ca5f-484e-8db8-23a65ea0044a",
                     "code" : 4003,
+                    "disabled" : false,
+                    "allow_featuring" : true,
+                    "allow_promotion" : true,
+                    "allow_background" : true,
                     "title" : [ {
                       "locale" : "de",
                       "value" : "Wein"
@@ -828,6 +930,10 @@
                     "parent" : {
                       "id" : "5b79391b-b436-45f9-b3e4-93ec3ae1fae2",
                       "code" : 4001,
+                      "disabled" : false,
+                      "allow_featuring" : true,
+                      "allow_promotion" : true,
+                      "allow_background" : true,
                       "title" : [ {
                         "locale" : "de",
                         "value" : "Tafelgetränke und Mineralwasser"
@@ -841,14 +947,17 @@
                     }
                   },
                   "article_group" : {
-                    "id" : "b3c6797a-777a-4103-aba8-d82089ba2980",
+                    "id" : "0c309757-5432-4652-8201-ec35f31c5260",
                     "code" : "60-56",
                     "name" : "Italien Rot 70 cl",
                     "parent" : {
-                      "id" : "380d422a-5b8f-42c5-872c-c4ddf4bb5611",
+                      "id" : "3f3df00f-6a7e-49a9-8eca-a36727ca4977",
                       "code" : "60",
                       "name" : "Weine"
                     }
+                  },
+                  "packshot" : {
+                    "image_url" : "https://denner-assets.s3-eu-west-1.amazonaws.com/assets/2059e18a-9e93-452e-9eef-f9d7605a31ad/022617.png"
                   },
                   "wine" : {
                     "country" : {
@@ -878,7 +987,7 @@
                       } ]
                     },
                     "type" : {
-                      "id" : "5395aec7-e36d-4b7f-99f6-a8a7f60fa412",
+                      "id" : 2,
                       "title" : [ {
                         "locale" : "de",
                         "value" : "Rotwein"
@@ -984,6 +1093,81 @@
         } ]
       }
     },
+    "/promotion-types" : {
+      "get" : {
+        "tags" : [ "Articles and Promotions – Artikel und Aktionen" ],
+        "summary" : "List all promotion types",
+        "description" : "Use this operation to get a list of all promotion types (Aktionstypen).\n",
+        "operationId" : "listPromotionTypes",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "The page number. Default: 1\n",
+          "required" : false,
+          "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
+          "format" : "int32"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The page size. Default: -1 (no limit)\n",
+          "required" : false,
+          "type" : "integer",
+          "default" : "-1",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful listing",
+            "schema" : {
+              "$ref" : "#/definitions/PromotionTypesResponse"
+            },
+            "examples" : {
+              "application/json" : {
+                "page_count" : 1,
+                "page_size" : 7,
+                "total_items" : 7,
+                "promotion_types" : [ {
+                  "id" : "bc46653b-53a8-4eaf-b6c5-5780605a3147",
+                  "code" : "F UND G",
+                  "name" : "Früchte und Gemüse"
+                }, {
+                  "id" : "089f8537-981a-42ba-9b0a-b3cba4a1c7d5",
+                  "code" : "FLUGBLATT",
+                  "name" : "Dennerwoche"
+                }, {
+                  "id" : "e4103942-cc11-45e7-a87e-99b8aba8cc2a",
+                  "code" : "KASSENPL.",
+                  "name" : "Kassenplatz"
+                }, {
+                  "id" : "0dd46184-3c01-4ba0-8fa6-baf6e3abcd50",
+                  "code" : "PARFUM",
+                  "name" : "Parfum"
+                }, {
+                  "id" : "c41c907d-8f84-4bf4-91f0-dbae19afdd2d",
+                  "code" : "REGIOWERB",
+                  "name" : "Regionalwerbung"
+                }, {
+                  "id" : "92d092c5-c023-49bb-b7f2-b90afde0e637",
+                  "code" : "SAISON",
+                  "name" : "Saison"
+                }, {
+                  "id" : "37f205e5-0661-424f-bcd9-a68ce93016cb",
+                  "code" : "WOCHENEND",
+                  "name" : "Wochenend-Knaller"
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "appKey" : [ ]
+        }, {
+          "appId" : [ ]
+        } ]
+      }
+    },
     "/screen-publications" : {
       "get" : {
         "tags" : [ "Screen Advertising – Screen-Bewerbung" ],
@@ -993,16 +1177,19 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The page number",
+          "description" : "The page number. Default: 1\n",
           "required" : false,
           "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
           "format" : "int32"
         }, {
           "name" : "page_size",
           "in" : "query",
-          "description" : "The page size",
+          "description" : "The page size. Default: -1 (no limit)\n",
           "required" : false,
           "type" : "integer",
+          "default" : "-1",
           "format" : "int32"
         } ],
         "responses" : {
@@ -1044,260 +1231,7 @@
                       "locale" : "it",
                       "value" : "tbd"
                     } ]
-                  },
-                  "articles" : [ {
-                    "id" : "48fcba99-b506-4395-ac1a-373e2af478b1",
-                    "number" : "050273",
-                    "name" : "Mandorla Primitivo IGT Puglia",
-                    "title" : [ {
-                      "locale" : "de",
-                      "value" : "Mandorla Primitivo di Puglia IGT"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "Mandorla Primitivo di Puglia IGT"
-                    }, {
-                      "locale" : "it",
-                      "value" : "Mandorla Primitivo di Puglia IGT"
-                    } ],
-                    "description" : [ {
-                      "locale" : "de",
-                      "value" : "2013, Apulien, Italien, 6 x 75 cl"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "2013, les Pouilles, Italie, 6 x 75 cl"
-                    }, {
-                      "locale" : "it",
-                      "value" : "2013, Puglia, Italia, 6 x 75 cl"
-                    } ],
-                    "prices" : {
-                      "sales" : 59.4,
-                      "instead" : 68.4,
-                      "base" : 1.32,
-                      "by_quantity" : [ {
-                        "quantity" : 1,
-                        "sales" : 9.9,
-                        "instead" : 11.4
-                      }, {
-                        "quantity" : 6,
-                        "sales" : 59.4,
-                        "instead" : 68.4
-                      } ]
-                    },
-                    "price_info" : [ {
-                      "locale" : "de",
-                      "value" : "Konkurrenzvergleich"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "Comparaison concurrentielle"
-                    }, {
-                      "locale" : "it",
-                      "value" : "Confronto con la concorrenza"
-                    } ],
-                    "saving" : [ {
-                      "locale" : "de",
-                      "value" : "9.- sparen"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "9.- éparmié"
-                    }, {
-                      "locale" : "it",
-                      "value" : "9.- risparmiati"
-                    } ],
-                    "quantity" : 6,
-                    "content" : {
-                      "size" : 75,
-                      "unit" : "cl"
-                    },
-                    "base" : {
-                      "size" : 10,
-                      "unit" : "cl",
-                      "text" : [ {
-                        "locale" : "de",
-                        "value" : "10 cl"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "10 cl"
-                      }, {
-                        "locale" : "it",
-                        "value" : "10 cl"
-                      } ]
-                    },
-                    "validity" : {
-                      "from" : "2015-06-23",
-                      "to" : "2015-06-29",
-                      "text" : [ {
-                        "locale" : "de",
-                        "value" : "Angebot gültig von 23.06.2015 bis 29.06.2015"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "..."
-                      }, {
-                        "locale" : "it",
-                        "value" : "..."
-                      } ]
-                    },
-                    "compared" : true,
-                    "online_group" : {
-                      "id" : "671988cc-ca5f-484e-8db8-23a65ea0044a",
-                      "code" : 4003,
-                      "title" : [ {
-                        "locale" : "de",
-                        "value" : "Wein"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "Vins"
-                      }, {
-                        "locale" : "it",
-                        "value" : "Vini"
-                      } ],
-                      "parent" : {
-                        "id" : "5b79391b-b436-45f9-b3e4-93ec3ae1fae2",
-                        "code" : 4001,
-                        "title" : [ {
-                          "locale" : "de",
-                          "value" : "Tafelgetränke und Mineralwasser"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Boissons table et eau minérale"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Bevande da tavola e acque minerali"
-                        } ]
-                      }
-                    },
-                    "article_group" : {
-                      "id" : "b3c6797a-777a-4103-aba8-d82089ba2980",
-                      "code" : "60-56",
-                      "name" : "Italien Rot 70 cl",
-                      "parent" : {
-                        "id" : "380d422a-5b8f-42c5-872c-c4ddf4bb5611",
-                        "code" : "60",
-                        "name" : "Weine"
-                      }
-                    },
-                    "wine" : {
-                      "country" : {
-                        "id" : "IT",
-                        "title" : [ {
-                          "locale" : "de",
-                          "value" : "Italien"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Italie"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Italia"
-                        } ]
-                      },
-                      "region" : {
-                        "id" : "b19c42bf-ed78-46ff-ad6f-fc688a059e6a",
-                        "title" : [ {
-                          "locale" : "de",
-                          "value" : "Apulien"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Les Pouilles"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Puglia"
-                        } ]
-                      },
-                      "type" : {
-                        "id" : "5395aec7-e36d-4b7f-99f6-a8a7f60fa412",
-                        "title" : [ {
-                          "locale" : "de",
-                          "value" : "Rotwein"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Vin rouge"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Vino rosso"
-                        } ]
-                      },
-                      "year" : 2013,
-                      "fits_with" : [ {
-                        "locale" : "de",
-                        "value" : "Pasta, Fleisch mit würzigen Saucen"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "Pâtes, viande aux sauces relevées"
-                      }, {
-                        "locale" : "it",
-                        "value" : "Pasta, carni accompagnate da salse aromatiche"
-                      } ],
-                      "varietal" : [ {
-                        "locale" : "de",
-                        "value" : "Primitivo"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "Primitivo"
-                      }, {
-                        "locale" : "it",
-                        "value" : "Primitivo"
-                      } ],
-                      "character" : [ {
-                        "locale" : "de",
-                        "value" : "Dunkles Rubinrot. In der Nase Aromen von roten Beeren, reifen Kirschen und Brombeeren. Geschmeidig im Gaumen."
-                      }, {
-                        "locale" : "fr",
-                        "value" : "Robe rubis foncé. Nez de baies rouges, de cerises matures et de mûres. Bouche moelleuse."
-                      }, {
-                        "locale" : "it",
-                        "value" : "Rosso rubino scuro. Al naso aromi di bacche rosse, ciliege mature e more. Morbido al palato."
-                      } ],
-                      "temperature" : [ {
-                        "locale" : "de",
-                        "value" : "16-18 °C"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "16-18 °C"
-                      }, {
-                        "locale" : "it",
-                        "value" : "16-18 °C"
-                      } ],
-                      "awards" : [ {
-                        "locale" : "de",
-                        "value" : ""
-                      }, {
-                        "locale" : "fr",
-                        "value" : ""
-                      }, {
-                        "locale" : "it",
-                        "value" : ""
-                      } ],
-                      "storage" : [ {
-                        "locale" : "de",
-                        "value" : "3 Jahre"
-                      }, {
-                        "locale" : "fr",
-                        "value" : "3 ans"
-                      }, {
-                        "locale" : "it",
-                        "value" : "3 anni"
-                      } ],
-                      "rating" : {
-                        "value" : 4.45,
-                        "total" : 11,
-                        "valid" : true
-                      },
-                      "stock" : {
-                        "value" : -15,
-                        "code" : 2,
-                        "message" : [ {
-                          "locale" : "de",
-                          "value" : "Derzeit nicht bestellbar"
-                        }, {
-                          "locale" : "fr",
-                          "value" : "Actuellement pas disponible"
-                        }, {
-                          "locale" : "it",
-                          "value" : "Attualmente non disponibile"
-                        } ]
-                      },
-                      "shop_url" : null
-                    }
-                  } ]
+                  }
                 } ]
               }
             }
@@ -1356,8 +1290,8 @@
                   } ]
                 },
                 "articles" : [ {
-                  "id" : "48fcba99-b506-4395-ac1a-373e2af478b1",
-                  "number" : "050273",
+                  "id" : "b2d29de4-dcd5-4f3a-8e1a-811e42573f5f",
+                  "article_id" : "051273",
                   "name" : "Mandorla Primitivo IGT Puglia",
                   "title" : [ {
                     "locale" : "de",
@@ -1403,7 +1337,61 @@
                     "locale" : "it",
                     "value" : "Confronto con la concorrenza"
                   } ],
-                  "saving" : [ {
+                  "unit_price_info" : [ {
+                    "locale" : "de",
+                    "value" : "Einzelflasche: 9.90 statt 11.40"
+                  }, {
+                    "locale" : "fr",
+                    "value" : "9.90 la bouteille au lieu de 11.40"
+                  }, {
+                    "locale" : "it",
+                    "value" : "9.90 a bottiglia invece di 11.40"
+                  } ],
+                  "dots" : [ {
+                    "id" : "d4bca729-10ad-482c-bdda-b1a1398173b5",
+                    "type" : {
+                      "id" : "semi_price_winehit"
+                    },
+                    "text" : [ {
+                      "locale" : "de",
+                      "value" : "1/2 Preis\nWeinheit!"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "1/2 prix\nLe top du vin!"
+                    }, {
+                      "locale" : "it",
+                      "value" : "1/2 prezzo\nSuperofferta vino!"
+                    } ],
+                    "images" : [ {
+                      "locale" : "de",
+                      "formats" : [ {
+                        "type" : "image/svg+xml",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-de.svg"
+                      }, {
+                        "type" : "image/png",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-de.png"
+                      } ]
+                    }, {
+                      "locale" : "fr",
+                      "formats" : [ {
+                        "type" : "image/svg+xml",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-fr.svg"
+                      }, {
+                        "type" : "image/png",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-fr.png"
+                      } ]
+                    }, {
+                      "locale" : "it",
+                      "formats" : [ {
+                        "type" : "image/svg+xml",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-it.svg"
+                      }, {
+                        "type" : "image/png",
+                        "url" : "https://s3-eu-west-1.amazonaws.com/denner-assets/dots/d4bca729-10ad-482c-bdda-b1a1398173b5/051273-it.png"
+                      } ]
+                    } ]
+                  } ],
+                  "panel" : [ {
                     "locale" : "de",
                     "value" : "9.- sparen"
                   }, {
@@ -1414,13 +1402,7 @@
                     "value" : "9.- risparmiati"
                   } ],
                   "quantity" : 6,
-                  "content" : {
-                    "size" : 75,
-                    "unit" : "cl"
-                  },
                   "base" : {
-                    "size" : 10,
-                    "unit" : "cl",
                     "text" : [ {
                       "locale" : "de",
                       "value" : "10 cl"
@@ -1435,7 +1417,17 @@
                   "validity" : {
                     "from" : "2015-06-23",
                     "to" : "2015-06-29",
-                    "text" : [ {
+                    "short_text" : [ {
+                      "locale" : "de",
+                      "value" : "Gültig von 23.06.–29.06."
+                    }, {
+                      "locale" : "fr",
+                      "value" : "..."
+                    }, {
+                      "locale" : "it",
+                      "value" : "..."
+                    } ],
+                    "long_text" : [ {
                       "locale" : "de",
                       "value" : "Angebot gültig von 23.06.2015 bis 29.06.2015"
                     }, {
@@ -1446,10 +1438,38 @@
                       "value" : "..."
                     } ]
                   },
+                  "availability_limitations" : {
+                    "region" : [ {
+                      "locale" : "de",
+                      "value" : "Nur in der deutschen und französischen Schweiz erhältlich"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "..."
+                    }, {
+                      "locale" : "it",
+                      "value" : "..."
+                    } ],
+                    "store" : [ {
+                      "locale" : "de",
+                      "value" : "Nur in Filialen mit Frischprodukten erhältlich"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "Disponible(s) uniquement dans les succursales aves des produits frais"
+                    }, {
+                      "locale" : "it",
+                      "value" : "..."
+                    } ]
+                  },
+                  "sort_index" : 0,
                   "compared" : true,
+                  "cooling" : 0,
                   "online_group" : {
                     "id" : "671988cc-ca5f-484e-8db8-23a65ea0044a",
                     "code" : 4003,
+                    "disabled" : false,
+                    "allow_featuring" : true,
+                    "allow_promotion" : true,
+                    "allow_background" : true,
                     "title" : [ {
                       "locale" : "de",
                       "value" : "Wein"
@@ -1463,6 +1483,10 @@
                     "parent" : {
                       "id" : "5b79391b-b436-45f9-b3e4-93ec3ae1fae2",
                       "code" : 4001,
+                      "disabled" : false,
+                      "allow_featuring" : true,
+                      "allow_promotion" : true,
+                      "allow_background" : true,
                       "title" : [ {
                         "locale" : "de",
                         "value" : "Tafelgetränke und Mineralwasser"
@@ -1476,14 +1500,17 @@
                     }
                   },
                   "article_group" : {
-                    "id" : "b3c6797a-777a-4103-aba8-d82089ba2980",
+                    "id" : "0c309757-5432-4652-8201-ec35f31c5260",
                     "code" : "60-56",
                     "name" : "Italien Rot 70 cl",
                     "parent" : {
-                      "id" : "380d422a-5b8f-42c5-872c-c4ddf4bb5611",
+                      "id" : "3f3df00f-6a7e-49a9-8eca-a36727ca4977",
                       "code" : "60",
                       "name" : "Weine"
                     }
+                  },
+                  "packshot" : {
+                    "image_url" : "https://denner-assets.s3-eu-west-1.amazonaws.com/assets/2059e18a-9e93-452e-9eef-f9d7605a31ad/022617.png"
                   },
                   "wine" : {
                     "country" : {
@@ -1513,7 +1540,7 @@
                       } ]
                     },
                     "type" : {
-                      "id" : "5395aec7-e36d-4b7f-99f6-a8a7f60fa412",
+                      "id" : 2,
                       "title" : [ {
                         "locale" : "de",
                         "value" : "Rotwein"
@@ -1628,16 +1655,19 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The page number",
+          "description" : "The page number. Default: 1\n",
           "required" : false,
           "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
           "format" : "int32"
         }, {
           "name" : "page_size",
           "in" : "query",
-          "description" : "The page size",
+          "description" : "The page size. Default: -1 (no limit)\n",
           "required" : false,
           "type" : "integer",
+          "default" : "-1",
           "format" : "int32"
         } ],
         "responses" : {
@@ -1654,6 +1684,7 @@
                 "store_channels" : [ {
                   "id" : "5d1c3dd5-35a9-4c66-ab20-3409ea640334",
                   "code" : 1,
+                  "name" : "Denner",
                   "title" : [ {
                     "locale" : "de",
                     "value" : "Denner"
@@ -1667,6 +1698,7 @@
                 }, {
                   "id" : "18549f95-6471-4e21-968f-8a0bf2e0f79b",
                   "code" : 2,
+                  "name" : "Denner Satellit und Denner Express",
                   "title" : [ {
                     "locale" : "de",
                     "value" : "Denner Satellit und Denner Express"
@@ -1698,16 +1730,19 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The page number",
+          "description" : "The page number. Default: 1\n",
           "required" : false,
           "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
           "format" : "int32"
         }, {
           "name" : "page_size",
           "in" : "query",
-          "description" : "The page size",
+          "description" : "The page size. Default: -1 (no limit)\n",
           "required" : false,
           "type" : "integer",
+          "default" : "-1",
           "format" : "int32"
         } ],
         "responses" : {
@@ -1723,6 +1758,8 @@
                 "total_items" : 5,
                 "store_services" : [ {
                   "id" : "acb911fb-b7e3-480f-ab91-1109e750892a",
+                  "code" : 1,
+                  "name" : "",
                   "title" : [ {
                     "locale" : "de",
                     "value" : "Humidor"
@@ -1735,6 +1772,8 @@
                   } ]
                 }, {
                   "id" : "85aa57ad-2bf3-48e5-a1a0-813889cbae26",
+                  "code" : 2,
+                  "name" : "Bordeaux Grands Crus",
                   "title" : [ {
                     "locale" : "de",
                     "value" : "Bordeaux Grands Crus"
@@ -1747,6 +1786,8 @@
                   } ]
                 }, {
                   "id" : "d7b4925e-79f8-415f-9436-0adb4a9cc4de",
+                  "code" : 3,
+                  "name" : "Früchte und Gemüse",
                   "title" : [ {
                     "locale" : "de",
                     "value" : "Früchte und Gemüse"
@@ -1759,6 +1800,8 @@
                   } ]
                 }, {
                   "id" : "47191064-ad2e-482a-a5cf-2aa32d0b8116",
+                  "code" : 4,
+                  "name" : "Früchte und Gemüse im Offenverkauf",
                   "title" : [ {
                     "locale" : "de",
                     "value" : "Früchte und Gemüse im Offenverkauf"
@@ -1771,6 +1814,8 @@
                   } ]
                 }, {
                   "id" : "57d0301a-fd5d-4dce-ab0d-75dee1d16631",
+                  "code" : 5,
+                  "name" : "Backstation",
                   "title" : [ {
                     "locale" : "de",
                     "value" : "Backstation"
@@ -1802,16 +1847,19 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The page number",
+          "description" : "The page number. Default: 1\n",
           "required" : false,
           "type" : "integer",
+          "default" : "1",
+          "minimum" : 0.0,
           "format" : "int32"
         }, {
           "name" : "page_size",
           "in" : "query",
-          "description" : "The page size",
+          "description" : "The page size. Default: -1 (no limit)\n",
           "required" : false,
           "type" : "integer",
+          "default" : "-1",
           "format" : "int32"
         } ],
         "responses" : {
@@ -1833,24 +1881,15 @@
                   "zip_code" : 8004,
                   "canton_code" : "ZH",
                   "city" : "Zürich",
-                  "country" : {
-                    "id" : "CH",
-                    "title" : [ {
-                      "locale" : "de",
-                      "value" : "Schweiz"
-                    }, {
-                      "locale" : "fr",
-                      "value" : "Suisse"
-                    }, {
-                      "locale" : "it",
-                      "value" : "Svizzera"
-                    } ]
-                  },
+                  "country" : "CH",
                   "phone" : "044 240 22 83",
                   "hotline" : "0848 99 66 33",
                   "payment_types" : [ "cash", "euro", "maestro", "post" ],
                   "credit_card" : true,
-                  "opened_on" : "1998-08-01",
+                  "open_from" : "1998-08-01",
+                  "open_to" : "null,",
+                  "renovation_from" : "2015-06-25",
+                  "renovation_to" : "2015-06-26",
                   "latitude" : 47.3728447,
                   "longitude" : 8.5295153,
                   "language" : "de",
@@ -1860,6 +1899,7 @@
                   "channel" : {
                     "id" : "5d1c3dd5-35a9-4c66-ab20-3409ea640334",
                     "code" : 1,
+                    "name" : "Denner",
                     "title" : [ {
                       "locale" : "de",
                       "value" : "Denner"
@@ -1873,34 +1913,47 @@
                   },
                   "opening_times" : [ {
                     "weekday" : 1,
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "weekday" : 2,
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "weekday" : 3,
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "weekday" : 4,
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "weekday" : 5,
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "weekday" : 6,
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "12:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "12:00:00"
                   }, {
                     "weekday" : 6,
-                    "opens_at" : "14:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "14:00:00",
+                    "open_to" : "20:00:00"
                   } ],
                   "special_opening_times" : [ {
+                    "day" : "2015-06-25",
+                    "reason" : [ {
+                      "locale" : "de",
+                      "value" : "Umbau"
+                    }, {
+                      "locale" : "fr",
+                      "value" : "tbd"
+                    }, {
+                      "locale" : "it",
+                      "value" : "tbd"
+                    } ],
+                    "closed" : true
+                  }, {
                     "day" : "2015-06-26",
                     "reason" : [ {
                       "locale" : "de",
@@ -1915,8 +1968,8 @@
                     "closed" : true
                   }, {
                     "day" : "2015-06-28",
-                    "opens_at" : "10:00:00",
-                    "closes_at" : "16:00:00",
+                    "open_from" : "10:00:00",
+                    "open_to" : "16:00:00",
                     "reason" : [ {
                       "locale" : "de",
                       "value" : "Sonntagsverkauf"
@@ -1931,71 +1984,69 @@
                   } ],
                   "calendar_opening_times" : [ {
                     "day" : "2015-06-22",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-06-23",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-06-24",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
-                  }, {
-                    "day" : "2015-06-25",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-06-27",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "12:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "12:00:00"
                   }, {
                     "day" : "2015-06-27",
-                    "opens_at" : "14:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "14:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-06-28",
-                    "opens_at" : "10:00:00",
-                    "closes_at" : "16:00:00"
+                    "open_from" : "10:00:00",
+                    "open_to" : "16:00:00"
                   }, {
                     "day" : "2015-06-29",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-06-30",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-07-01",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-07-02",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-07-03",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-07-04",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "12:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "12:00:00"
                   }, {
                     "day" : "2015-07-04",
-                    "opens_at" : "14:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "14:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-07-06",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   }, {
                     "day" : "2015-07-07",
-                    "opens_at" : "08:00:00",
-                    "closes_at" : "20:00:00"
+                    "open_from" : "08:00:00",
+                    "open_to" : "20:00:00"
                   } ],
                   "services" : [ {
                     "id" : "acb911fb-b7e3-480f-ab91-1109e750892a",
+                    "code" : 1,
+                    "name" : "Humidor",
                     "title" : [ {
                       "locale" : "de",
                       "value" : "Humidor"
@@ -2015,6 +2066,8 @@
                     } ]
                   }, {
                     "id" : "d7b4925e-79f8-415f-9436-0adb4a9cc4de",
+                    "code" : 3,
+                    "name" : "Früchte und Gemüse",
                     "title" : [ {
                       "locale" : "de",
                       "value" : "Früchte und Gemüse"
@@ -2030,6 +2083,8 @@
                     } ]
                   }, {
                     "id" : "57d0301a-fd5d-4dce-ab0d-75dee1d16631",
+                    "code" : 5,
+                    "name" : "Backstation",
                     "title" : [ {
                       "locale" : "de",
                       "value" : "Backstation"
@@ -2144,14 +2199,10 @@
       "format" : "int32",
       "description" : "Quantity"
     },
-    "ContentSize" : {
+    "Cooling" : {
       "type" : "number",
-      "format" : "float",
-      "description" : "Content size"
-    },
-    "ContentUnit" : {
-      "type" : "string",
-      "description" : "Content unit"
+      "format" : "int32",
+      "description" : "Cooling type (0 = no cooling, 1 = refrigerated, 2 = frozen)"
     },
     "Appearance" : {
       "type" : "object",
@@ -2166,9 +2217,42 @@
         }
       }
     },
+    "Validity" : {
+      "type" : "object",
+      "properties" : {
+        "from" : {
+          "$ref" : "#/definitions/Date"
+        },
+        "to" : {
+          "$ref" : "#/definitions/Date"
+        },
+        "text" : {
+          "$ref" : "#/definitions/Translations"
+        }
+      },
+      "description" : "Generic validity based on dates (from/to) and a corresponding text"
+    },
+    "ArticleValidity" : {
+      "type" : "object",
+      "properties" : {
+        "from" : {
+          "$ref" : "#/definitions/Date"
+        },
+        "to" : {
+          "$ref" : "#/definitions/Date"
+        },
+        "short_text" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "long_text" : {
+          "$ref" : "#/definitions/Translations"
+        }
+      },
+      "description" : "Article validity based on dates (from/to) and corresponding texts (short and long version)"
+    },
     "Url" : {
       "type" : "string",
-      "description" : "Web url address"
+      "description" : "Web URL address"
     },
     "Phone" : {
       "type" : "string",
@@ -2218,7 +2302,9 @@
           "description" : "Canton (state) code"
         },
         "country" : {
-          "$ref" : "#/definitions/Country"
+          "type" : "string",
+          "description" : "Country code definition from ISO 3166",
+          "pattern" : "/^[A-Z]{2}$/"
         },
         "phone" : {
           "$ref" : "#/definitions/Phone"
@@ -2237,25 +2323,25 @@
           "type" : "boolean",
           "description" : "Credit card can be used for payments?"
         },
-        "opened_on" : {
+        "open_from" : {
           "type" : "string",
           "format" : "date",
-          "description" : "Opened on"
+          "description" : "Opening on"
         },
-        "closed_on" : {
+        "open_to" : {
           "type" : "string",
           "format" : "date",
-          "description" : "Closed on"
+          "description" : "Closing on"
         },
         "renovation_from" : {
           "type" : "string",
           "format" : "date",
-          "description" : "Renovation from"
+          "description" : "Renovation starting on"
         },
         "renovation_to" : {
           "type" : "string",
           "format" : "date",
-          "description" : "Renovation to"
+          "description" : "Renovation ending on"
         },
         "longitude" : {
           "type" : "number",
@@ -2327,10 +2413,10 @@
         "weekday" : {
           "$ref" : "#/definitions/DayOfWeek"
         },
-        "opens_at" : {
+        "open_from" : {
           "$ref" : "#/definitions/Time"
         },
-        "closes_at" : {
+        "open_to" : {
           "$ref" : "#/definitions/Time"
         }
       }
@@ -2341,10 +2427,10 @@
         "day" : {
           "$ref" : "#/definitions/Date"
         },
-        "opens_at" : {
+        "open_from" : {
           "$ref" : "#/definitions/Time"
         },
-        "closes_at" : {
+        "open_to" : {
           "$ref" : "#/definitions/Time"
         },
         "reason" : {
@@ -2362,10 +2448,10 @@
         "day" : {
           "$ref" : "#/definitions/Date"
         },
-        "opens_at" : {
+        "open_from" : {
           "$ref" : "#/definitions/Time"
         },
-        "closes_at" : {
+        "open_to" : {
           "$ref" : "#/definitions/Time"
         }
       }
@@ -2381,6 +2467,10 @@
           "format" : "int32",
           "description" : "Navision channel code"
         },
+        "name" : {
+          "type" : "string",
+          "description" : "Channel name"
+        },
         "title" : {
           "$ref" : "#/definitions/Translations"
         }
@@ -2392,6 +2482,15 @@
         "id" : {
           "$ref" : "#/definitions/UUIDv4"
         },
+        "code" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Navision service code"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Service name"
+        },
         "title" : {
           "$ref" : "#/definitions/Translations"
         }
@@ -2402,6 +2501,15 @@
       "properties" : {
         "id" : {
           "$ref" : "#/definitions/UUIDv4"
+        },
+        "code" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Navision service code"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Service name"
         },
         "title" : {
           "$ref" : "#/definitions/Translations"
@@ -2451,13 +2559,10 @@
         }
       }
     },
-    "OnlineAdvertisedArticle" : {
+    "Article" : {
       "type" : "object",
       "properties" : {
         "id" : {
-          "$ref" : "#/definitions/UUIDv4"
-        },
-        "number" : {
           "type" : "string",
           "description" : "Navision article code",
           "pattern" : "/^\\d{6}$/"
@@ -2475,97 +2580,14 @@
         "prices" : {
           "$ref" : "#/definitions/ArticlePrices"
         },
-        "price_info" : {
-          "$ref" : "#/definitions/Translations"
-        },
-        "saving" : {
-          "$ref" : "#/definitions/Translations"
-        },
-        "quantity" : {
-          "$ref" : "#/definitions/Quantity"
-        },
-        "content" : {
-          "$ref" : "#/definitions/Content"
-        },
         "base" : {
           "$ref" : "#/definitions/BaseContent"
         },
-        "validity" : {
-          "$ref" : "#/definitions/Validity"
-        },
-        "global_appearance" : {
-          "$ref" : "#/definitions/Appearance"
-        },
-        "featured_appearance" : {
-          "$ref" : "#/definitions/Appearance"
-        },
-        "promoted" : {
-          "type" : "boolean",
-          "description" : "Is a promoted article?"
-        },
-        "compared" : {
-          "type" : "boolean",
-          "description" : "Is a compared article?"
+        "cooling" : {
+          "$ref" : "#/definitions/Cooling"
         },
         "online_group" : {
-          "$ref" : "#/definitions/AddignedOnlineGroup"
-        },
-        "article_group" : {
-          "$ref" : "#/definitions/AssignedArticleGroup"
-        },
-        "wine" : {
-          "$ref" : "#/definitions/ArticleWine"
-        }
-      }
-    },
-    "ScreenAdvertisedArticle" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "$ref" : "#/definitions/UUIDv4"
-        },
-        "number" : {
-          "type" : "string",
-          "description" : "Navision article code",
-          "pattern" : "/^\\d{6}$/"
-        },
-        "name" : {
-          "type" : "string",
-          "description" : "Article name"
-        },
-        "title" : {
-          "$ref" : "#/definitions/Translations"
-        },
-        "description" : {
-          "$ref" : "#/definitions/Translations"
-        },
-        "prices" : {
-          "$ref" : "#/definitions/ArticlePrices"
-        },
-        "price_info" : {
-          "$ref" : "#/definitions/Translations"
-        },
-        "saving" : {
-          "$ref" : "#/definitions/Translations"
-        },
-        "quantity" : {
-          "$ref" : "#/definitions/Quantity"
-        },
-        "content" : {
-          "$ref" : "#/definitions/Content"
-        },
-        "base" : {
-          "$ref" : "#/definitions/BaseContent"
-        },
-        "validity" : {
-          "$ref" : "#/definitions/Validity"
-        },
-        "compared" : {
-          "type" : "boolean",
-          "description" : "Is a compared article?"
-        },
-        "online_group" : {
-          "$ref" : "#/definitions/AddignedOnlineGroup"
+          "$ref" : "#/definitions/AssignedOnlineGroup"
         },
         "article_group" : {
           "$ref" : "#/definitions/AssignedArticleGroup"
@@ -2612,42 +2634,19 @@
         }
       }
     },
-    "Content" : {
-      "type" : "object",
-      "properties" : {
-        "size" : {
-          "$ref" : "#/definitions/ContentSize"
-        },
-        "unit" : {
-          "$ref" : "#/definitions/ContentUnit"
-        }
-      }
-    },
     "BaseContent" : {
       "type" : "object",
       "properties" : {
-        "size" : {
-          "$ref" : "#/definitions/ContentSize"
-        },
-        "unit" : {
-          "$ref" : "#/definitions/ContentUnit"
-        },
         "text" : {
           "$ref" : "#/definitions/Translations"
         }
       }
     },
-    "Validity" : {
+    "Packshot" : {
       "type" : "object",
       "properties" : {
-        "from" : {
-          "$ref" : "#/definitions/Date"
-        },
-        "to" : {
-          "$ref" : "#/definitions/Date"
-        },
-        "text" : {
-          "$ref" : "#/definitions/Translations"
+        "image_url" : {
+          "$ref" : "#/definitions/Url"
         }
       }
     },
@@ -2710,7 +2709,10 @@
       "type" : "object",
       "properties" : {
         "id" : {
-          "$ref" : "#/definitions/UUIDv4"
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Navision wine type code",
+          "minimum" : 0.0
         },
         "title" : {
           "$ref" : "#/definitions/Translations"
@@ -2758,6 +2760,224 @@
         }
       }
     },
+    "Dots" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/Output"
+      }
+    },
+    "Output" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "$ref" : "#/definitions/UUIDv4"
+        },
+        "type" : {
+          "type" : "object",
+          "description" : "Output type"
+        },
+        "text" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "images" : {
+          "$ref" : "#/definitions/OutputImages"
+        }
+      }
+    },
+    "OutputImages" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/OutputImage"
+      }
+    },
+    "OutputImage" : {
+      "type" : "object",
+      "properties" : {
+        "locale" : {
+          "type" : "string",
+          "description" : "Locale for the image formats"
+        },
+        "formats" : {
+          "$ref" : "#/definitions/OutputImageFormats"
+        }
+      }
+    },
+    "OutputImageFormats" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/OutputImageFormat"
+      }
+    },
+    "OutputImageFormat" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "description" : "Mime type for the output image"
+        },
+        "url" : {
+          "type" : "string",
+          "description" : "Image url which can be used, for example, in an 'img' tag"
+        }
+      }
+    },
+    "OnlineArticle" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "$ref" : "#/definitions/UUIDv4"
+        },
+        "article_id" : {
+          "type" : "string",
+          "description" : "Navision article code",
+          "pattern" : "/^\\d{6}$/"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Article name"
+        },
+        "title" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "description" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "prices" : {
+          "$ref" : "#/definitions/ArticlePrices"
+        },
+        "price_info" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "unit_price_info" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "dots" : {
+          "$ref" : "#/definitions/Dots"
+        },
+        "panel" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "quantity" : {
+          "$ref" : "#/definitions/Quantity"
+        },
+        "base" : {
+          "$ref" : "#/definitions/BaseContent"
+        },
+        "validity" : {
+          "$ref" : "#/definitions/ArticleValidity"
+        },
+        "availability_limitations" : {
+          "type" : "object",
+          "description" : "Texts for information about limited availability"
+        },
+        "sort_index" : {
+          "$ref" : "#/definitions/SortIndex"
+        },
+        "featured_sort_index" : {
+          "$ref" : "#/definitions/SortIndex"
+        },
+        "featured" : {
+          "type" : "boolean",
+          "description" : "Is it a featured article (should be displayed on the front/main/home page)?"
+        },
+        "promoted" : {
+          "type" : "boolean",
+          "description" : "Is it a promoted article (should be displayed with full information)?"
+        },
+        "compared" : {
+          "type" : "boolean",
+          "description" : "Is the article's price compared to an offer from an other company?"
+        },
+        "cooling" : {
+          "$ref" : "#/definitions/Cooling"
+        },
+        "online_group" : {
+          "$ref" : "#/definitions/AssignedOnlineGroup"
+        },
+        "article_group" : {
+          "$ref" : "#/definitions/AssignedArticleGroup"
+        },
+        "packshot" : {
+          "$ref" : "#/definitions/Packshot"
+        },
+        "wine" : {
+          "$ref" : "#/definitions/ArticleWine"
+        }
+      }
+    },
+    "ScreenArticle" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "$ref" : "#/definitions/UUIDv4"
+        },
+        "article_id" : {
+          "type" : "string",
+          "description" : "Navision article code",
+          "pattern" : "/^\\d{6}$/"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Article name"
+        },
+        "title" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "description" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "prices" : {
+          "$ref" : "#/definitions/ArticlePrices"
+        },
+        "price_info" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "unit_price_info" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "dots" : {
+          "$ref" : "#/definitions/Dots"
+        },
+        "panel" : {
+          "$ref" : "#/definitions/Translations"
+        },
+        "quantity" : {
+          "$ref" : "#/definitions/Quantity"
+        },
+        "base" : {
+          "$ref" : "#/definitions/BaseContent"
+        },
+        "validity" : {
+          "$ref" : "#/definitions/ArticleValidity"
+        },
+        "availability_limitations" : {
+          "type" : "object",
+          "description" : "Texts for information about limited availability"
+        },
+        "sort_index" : {
+          "$ref" : "#/definitions/SortIndex"
+        },
+        "compared" : {
+          "type" : "boolean",
+          "description" : "Is the article's price compared to an offer from an other company?"
+        },
+        "cooling" : {
+          "$ref" : "#/definitions/Cooling"
+        },
+        "online_group" : {
+          "$ref" : "#/definitions/AssignedOnlineGroup"
+        },
+        "article_group" : {
+          "$ref" : "#/definitions/AssignedArticleGroup"
+        },
+        "packshot" : {
+          "$ref" : "#/definitions/Packshot"
+        },
+        "wine" : {
+          "$ref" : "#/definitions/ArticleWine"
+        }
+      }
+    },
     "OnlinePublication" : {
       "type" : "object",
       "properties" : {
@@ -2779,6 +2999,9 @@
         "list_title" : {
           "$ref" : "#/definitions/Translations"
         },
+        "show_details_text" : {
+          "$ref" : "#/definitions/Translations"
+        },
         "validity" : {
           "$ref" : "#/definitions/Validity"
         },
@@ -2788,12 +3011,6 @@
           "items" : {
             "$ref" : "#/definitions/AssignedOnlineFilter"
           }
-        },
-        "global_appearance" : {
-          "$ref" : "#/definitions/Appearance"
-        },
-        "featured_appearance" : {
-          "$ref" : "#/definitions/Appearance"
         },
         "promotion_type" : {
           "$ref" : "#/definitions/PromotionType"
@@ -2809,7 +3026,7 @@
       }, {
         "properties" : {
           "articles" : {
-            "$ref" : "#/definitions/OnlineAdvertisedArticles"
+            "$ref" : "#/definitions/OnlineArticles"
           }
         }
       } ]
@@ -2874,9 +3091,17 @@
         "sort_index" : {
           "$ref" : "#/definitions/SortIndex"
         },
-        "disabled" : {
+        "allow_featuring" : {
           "type" : "boolean",
-          "description" : "Is disabled?"
+          "description" : "Does the group allow the assigned articles to be featured (i.e. displayed on front/main/home page)?"
+        },
+        "allow_promotion" : {
+          "type" : "boolean",
+          "description" : "Does the group allow the assigned articles to be promoted (i.e. displayed on a promotional page)?"
+        },
+        "allow_background" : {
+          "type" : "boolean",
+          "description" : "Does the group allow the assigned articles to be displayed with a background (i.e. displayed on a page with a deceptive/trivializing background)?"
         },
         "title" : {
           "$ref" : "#/definitions/Translations"
@@ -2886,7 +3111,7 @@
         }
       }
     },
-    "AddignedOnlineGroup" : {
+    "AssignedOnlineGroup" : {
       "type" : "object",
       "properties" : {
         "id" : {
@@ -2897,11 +3122,27 @@
           "format" : "int32",
           "description" : "Navision online group code"
         },
+        "disabled" : {
+          "type" : "boolean",
+          "description" : "Is the group disabled?"
+        },
+        "allow_featuring" : {
+          "type" : "boolean",
+          "description" : "Does the group allow the assigned articles to be featured (i.e. displayed on front/main/home page)?"
+        },
+        "allow_promotion" : {
+          "type" : "boolean",
+          "description" : "Does the group allow the assigned articles to be promoted (i.e. displayed on a promotional page)?"
+        },
+        "allow_background" : {
+          "type" : "boolean",
+          "description" : "Does the group allow the assigned articles to be displayed with a background (i.e. displayed on a page with a deceptive/trivializing background)?"
+        },
         "title" : {
           "$ref" : "#/definitions/Translations"
         },
         "parent" : {
-          "$ref" : "#/definitions/AddignedOnlineGroup"
+          "$ref" : "#/definitions/AssignedOnlineGroup"
         }
       }
     },
@@ -2934,7 +3175,7 @@
       }, {
         "properties" : {
           "articles" : {
-            "$ref" : "#/definitions/ScreenAdvertisedArticles"
+            "$ref" : "#/definitions/ScreenArticles"
           }
         }
       } ]
@@ -2969,16 +3210,28 @@
         "$ref" : "#/definitions/ArticleGroup"
       }
     },
-    "OnlineAdvertisedArticles" : {
+    "Articles" : {
       "type" : "array",
       "items" : {
-        "$ref" : "#/definitions/OnlineAdvertisedArticle"
+        "$ref" : "#/definitions/Article"
       }
     },
-    "ScreenAdvertisedArticles" : {
+    "PromotionTypes" : {
       "type" : "array",
       "items" : {
-        "$ref" : "#/definitions/ScreenAdvertisedArticle"
+        "$ref" : "#/definitions/PromotionType"
+      }
+    },
+    "OnlineArticles" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/OnlineArticle"
+      }
+    },
+    "ScreenArticles" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/ScreenArticle"
       }
     },
     "OnlinePublications" : {
@@ -3097,6 +3350,52 @@
         }
       }
     },
+    "ArticlesResponse" : {
+      "type" : "object",
+      "properties" : {
+        "page_count" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The number of pages"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The page size"
+        },
+        "total_items" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The number of items on all pages"
+        },
+        "articles" : {
+          "$ref" : "#/definitions/Articles"
+        }
+      }
+    },
+    "PromotionTypesResponse" : {
+      "type" : "object",
+      "properties" : {
+        "page_count" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The number of pages"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The page size"
+        },
+        "total_items" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The number of items on all pages"
+        },
+        "promotion_types" : {
+          "$ref" : "#/definitions/PromotionTypes"
+        }
+      }
+    },
     "OnlineFiltersResponse" : {
       "type" : "object",
       "properties" : {
@@ -3194,17 +3493,20 @@
     "PageParam" : {
       "name" : "page",
       "in" : "query",
-      "description" : "The page number",
+      "description" : "The page number. Default: 1\n",
       "required" : false,
       "type" : "integer",
+      "default" : "1",
+      "minimum" : 0.0,
       "format" : "int32"
     },
     "PageSizeParam" : {
       "name" : "page_size",
       "in" : "query",
-      "description" : "The page size",
+      "description" : "The page size. Default: -1 (no limit)\n",
       "required" : false,
       "type" : "integer",
+      "default" : "-1",
       "format" : "int32"
     },
     "PublicationIdPathParam" : {
@@ -3214,6 +3516,13 @@
       "required" : true,
       "type" : "string",
       "pattern" : "/^[a-f0-9]{8}\\-[a-f0-9]{4}\\-4[a-f0-9]{3}\\-(8|9|a|b)[a-f0-9]{3}\\-[a-f0-9]{12}$/"
+    },
+    "FilterParam" : {
+      "name" : "filter",
+      "in" : "query",
+      "description" : "Filters: JSON array of Filter object, urlencoded.\n\nFilter object:\n- property: Property to filter on.\n- operator: Operation property. Enumeration ('eq', 'like', 'lt', 'gt', 'in', ...). Dependent from property (not all might be allowed).\n- type: Type of value. Enumeration ('string', 'integer', 'boolean', 'array') Dependent from property and operator (not all might be allowed).\n- value: Value. Must be of the defined type.\n\nExamples:\n- [{\"property\":\"id\",\"operator\":\"in\",\"type\":\"array\",\"value\":[\"7627150d-36bd-4867-89b2-091800a03d24\",\"58afec5c-ece9-4b66-bc55-00d6dc1b65b8\"]}]\n- [{\"property\":\"in_shop\",\"operator\":\"eq\",\"type\":\"boolean\",\"value\":true}]\n",
+      "required" : false,
+      "type" : "string"
     }
   }
 }
