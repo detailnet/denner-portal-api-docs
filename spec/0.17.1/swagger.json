@@ -4302,20 +4302,20 @@
         } ]
       }
     },
-    "/publication-briefings" : {
+    "/print-publication-briefings" : {
       "post" : {
         "tags" : [ "advertising" ],
-        "summary" : "Create breifing",
+        "summary" : "Create briefing",
         "description" : "Create a publication briefing (Wein-Aktionsplakate via Weinplanungstool).\n",
         "operationId" : "createPublicationBriefing",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "body",
-          "name" : "PublicationBriefingInput",
+          "name" : "CreatePublicationBriefing",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/PublicationBriefingInput"
+            "$ref" : "#/definitions/CreatePublicationBriefing"
           }
         } ],
         "responses" : {
@@ -4356,12 +4356,6 @@
             "schema" : {
               "$ref" : "#/definitions/PublicationBriefing"
             }
-          },
-          "400" : {
-            "description" : "400 Bad Request"
-          },
-          "500" : {
-            "description" : "500 Internal Server Error"
           }
         },
         "security" : [ {
@@ -5063,8 +5057,9 @@
         }
       }
     },
-    "Creator" : {
+    "Collaborator" : {
       "type" : "object",
+      "required" : [ "email", "firstname", "lastname" ],
       "properties" : {
         "email" : {
           "$ref" : "#/definitions/Email"
@@ -5112,9 +5107,6 @@
         "success" : {
           "type" : "boolean"
         },
-        "store" : {
-          "$ref" : "#/definitions/StoreCode"
-        },
         "advertised_articles" : {
           "$ref" : "#/definitions/AdvertisedArticleSelections"
         },
@@ -5124,12 +5116,15 @@
         "templates" : {
           "$ref" : "#/definitions/PublicationTemplates"
         },
+        "store" : {
+          "$ref" : "#/definitions/StoreCode"
+        },
         "reference" : {
           "type" : "string",
           "description" : "Optional WPT internal reference"
         },
         "created_by" : {
-          "$ref" : "#/definitions/Creator"
+          "$ref" : "#/definitions/Collaborator"
         },
         "created_on" : {
           "$ref" : "#/definitions/Date"
@@ -7318,23 +7313,20 @@
         }
       }
     },
-    "PublicationBriefingInput" : {
+    "CreatePublicationBriefing" : {
       "type" : "object",
-      "required" : [ "languages", "name", "store", "templates", "week" ],
+      "required" : [ "advertised_articles", "created_by", "languages", "name", "store", "templates", "week" ],
       "properties" : {
-        "name" : {
-          "type" : "string",
-          "description" : "Nanme for briefing and publications"
-        },
         "week" : {
           "$ref" : "#/definitions/FullWeek"
         },
-        "store" : {
-          "$ref" : "#/definitions/StoreCode"
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the briefing will also be used to name the created publications."
         },
         "advertised_articles" : {
           "type" : "array",
-          "description" : "Promoted articles selection",
+          "description" : "These articles will be added to the created publication(s). When an article doesn't exist for the given promotion and quantity, it will be ignored.\n",
           "uniqueItems" : true,
           "items" : {
             "$ref" : "#/definitions/AdvertisedArticleSelection"
@@ -7351,19 +7343,22 @@
         },
         "templates" : {
           "type" : "array",
-          "description" : "templates to produce",
+          "description" : "For each template, a separate publication will be created",
           "uniqueItems" : true,
           "items" : {
             "$ref" : "#/definitions/PublicationTemplateId"
           },
           "minItems" : 1
         },
-        "created_by" : {
-          "$ref" : "#/definitions/Creator"
+        "store" : {
+          "$ref" : "#/definitions/StoreCode"
         },
         "reference" : {
           "type" : "string",
           "description" : "Optional WPT internal reference"
+        },
+        "created_by" : {
+          "$ref" : "#/definitions/Collaborator"
         }
       }
     },
@@ -7461,12 +7456,12 @@
       "required" : false,
       "type" : "string"
     },
-    "PublicationBriefingInput" : {
+    "CreatePublicationBriefing" : {
       "in" : "body",
-      "name" : "PublicationBriefingInput",
+      "name" : "CreatePublicationBriefing",
       "required" : true,
       "schema" : {
-        "$ref" : "#/definitions/PublicationBriefingInput"
+        "$ref" : "#/definitions/CreatePublicationBriefing"
       }
     }
   }
